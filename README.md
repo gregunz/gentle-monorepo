@@ -1,19 +1,18 @@
-# Python Polylith Example
+# genmono
 
-This is a repository with an example `Python` setup of the Polylith Architecture using `uv`.
-Here you will find examples of code being shared between different kind of projects, and the developer tooling setup.
+✨ A gentle Python monorepo ✨
+Inspired by [The Gentle Monorepo](https://pretalx.com/pydata-amsterdam-2025/talk/XYZ) talk at PyData Amsterdam 2025, based of this [template](https://github.com/davidvujic/python-polylith-example-uv).
 
-## Developer experience
+## What's this? 🤔
+`genmono` is a monorepo setup for Python projects.
+It follows the **Polylith Architecture** and focuses on:
+- Reusing components across multiple products
+- Fast, reproducible dependency management
+- Trust-based, lightweight collaboration
 
-### Mypy
-Have a look at the `mypy.ini` configuration file, to make `Mypy` work really well with this type of architecture.
+## Tooling 🛠
+- **Polylith** → structure & modularity
+- **uv** → dependency management
 
-``` ini
-[mypy]
-mypy_path = components, bases
-namespace_packages = True
-explicit_package_bases = True
-```
-
-Have a look at this repository for more information and documentation:
-[Python tools for the Polylith Architecture](https://github.com/DavidVujic/python-polylith)
+## Why?
+To iterate faster, share more, and avoid the pain of managing internal packages in separate repos.
