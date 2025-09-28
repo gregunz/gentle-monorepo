@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling", "hatch-polylith-bricks"]
+build-backend = "hatchling.build"
+
+[project]
+name = "example_fastapi"
+version = "0.0.1"
+description = 'An example of project using fastapi in a gentle monorepo.'
+authors = [{ name = "gregunz" }]
+
+requires-python = ">=3.12"
+
+dependencies = [
+  "fastapi",
+  "uvicorn",
+]
+
+# This section is needed for the Hatchling build backend, to activate the polylith build hook.
+[tool.hatch.build.hooks.polylith-bricks]
+
+# This section is needed for building
+[tool.hatch.build.targets.wheel]
+packages = ["genmono"]
+
+[tool.hatch.build]
+dev-mode-dirs = ["../../bases", "../../components"]
+
+[tool.polylith.bricks]
+"../../bases/genmono/hello_api" = "genmono/hello_api"
+"../../components/genmono/greeting" = "genmono/greeting"
+"../../components/genmono/log" = "genmono/log"
+
+[tool.poe]
+executor.type = "uv"
+
+[tool.poe.env]
+PACKAGE_NAME.default = "example_fastapi"
+IMAGE_NAME.default = "example_fastapi_image"
+CONTAINER_NAME.default = "example_fastapi_container"
+APP_PORT.default = "8000"
+
+[tool.poe.tasks]
+# dev
+dev = "uvicorn genmono.hello_api.core:app --host localhost --port $APP_PORT --reload --reload-dir=../../"
+
+# build
+export-deps = "uv export --no-emit-project --output-file requirements.txt"
+build-wheel = "uv build --out-dir ./dist"
+docker-build = "docker build --build-arg PACKAGE_NAME=$PACKAGE_NAME -t $IMAGE_NAME ."
+
+# run
+docker-run-interactive = "docker run --rm -it --name $CONTAINER_NAME -p $APP_PORT:8000 $IMAGE_NAME"
+docker-run-detached = "docker run -d --name $CONTAINER_NAME -p $APP_PORT:8000 $IMAGE_NAME"
+
+# aliases
+[tool.poe.tasks.build]
+sequence = ["export-deps", "build-wheel", "docker-build"]
+
+[tool.poe.tasks.run]
+sequence = ["docker-run-interactive"]
+
+[tool.poe.tasks.run-detached]
+sequence = ["docker-run-detached"]
+
+[tool.poe.tasks.build-run]
+sequence = ["build", "run"]

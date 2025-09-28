@@ -1,0 +1,10 @@
+from genmono import greeting, log
+from fastapi import FastAPI
+
+logger = log.get_logger("greet-FastAPI-logger")
+app = FastAPI()
+
+@app.get("/hello")
+def hello_world() -> dict:
+    logger.info("The FastAPI root endpoint was called.")
+    return {"message": f"{greeting.hello_world()} !!"}

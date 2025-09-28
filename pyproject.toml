@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gentle-monorepo"
+version = "0.0.1"
+description = "A python Polylith example code monorepo using uv."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "gregunz" }]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+]
+
+[dependency-groups]
+dev = [
+  "mypy",
+  "polylith-cli",
+  "pytest",
+  "ruff",
+  "jupyter",
+  "poethepoet",
+]
+
+[tool.uv.workspace]
+members = ["projects/*"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build]
+dev-mode-dirs = ["components", "bases", "development", "."]
+
+[tool.polylith.bricks]
+"bases/genmono/hello_api" = "genmono/hello_api"
+"components/genmono/greeting" = "genmono/greeting"
+"components/genmono/log" = "genmono/log"
+
+[tool.ruff]
+exclude = [
+  ".git",
+  ".github",
+  "__pycache__",
+  ".mypy_cache",
+  ".ruff_cache",
+  "dist",
+  ".venv",
+  "./development/*.py",
+]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.mypy]
+mypy_path = ["components", "bases"]
+namespace_packages = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = "functions_framework"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "confluent_kafka"
+ignore_missing_imports = true
