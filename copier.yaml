@@ -1,0 +1,8 @@
+monorepo_name:
+    type: str
+    help: How do you want to name you monorepo?
+
+python_version:
+  type: str
+  help: What python version (>=3.12)?
+  default: ">=3.12"

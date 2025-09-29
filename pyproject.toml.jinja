@@ -3,13 +3,11 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "gentle-monorepo"
+name = "{{monorepo_name}}"
 version = "0.0.1"
-description = "A python Polylith example code monorepo using uv."
+description = "A python monorepo using polylith and uv."
 readme = "README.md"
-requires-python = ">=3.12"
-license = "MIT"
-authors = [{ name = "gregunz" }]
+requires-python = "{{python_version}}"
 dependencies = [
     "fastapi",
     "uvicorn",
@@ -35,9 +33,9 @@ allow-direct-references = true
 dev-mode-dirs = ["components", "bases", "development", "."]
 
 [tool.polylith.bricks]
-"bases/genmono/hello_api" = "genmono/hello_api"
-"components/genmono/greeting" = "genmono/greeting"
-"components/genmono/log" = "genmono/log"
+"bases/{{monorepo_name}}/hello_api" = "{{monorepo_name}}/hello_api"
+"components/{{monorepo_name}}/greeting" = "{{monorepo_name}}/greeting"
+"components/{{monorepo_name}}/log" = "{{monorepo_name}}/log"
 
 [tool.ruff]
 exclude = [
@@ -67,3 +65,14 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = "confluent_kafka"
 ignore_missing_imports = true
+
+[tool.poe]
+executor.type = "uv"
+
+[tool.poe.tasks]
+setup  = "pre-commit install --config .pre-commit-config.yaml"
+format = "pre-commit run --all-files"
+
+[tool.poe.tasks.test]
+env = {PYTEST_ARGS.default = ""}
+cmd = "pytest $PYTEST_ARGS"

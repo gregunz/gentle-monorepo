@@ -20,15 +20,15 @@ dependencies = [
 
 # This section is needed for building
 [tool.hatch.build.targets.wheel]
-packages = ["genmono"]
+packages = ["{{monorepo_name}}"]
 
 [tool.hatch.build]
 dev-mode-dirs = ["../../bases", "../../components"]
 
 [tool.polylith.bricks]
-"../../bases/genmono/hello_api" = "genmono/hello_api"
-"../../components/genmono/greeting" = "genmono/greeting"
-"../../components/genmono/log" = "genmono/log"
+"../../bases/{{monorepo_name}}/hello_api" = "{{monorepo_name}}/hello_api"
+"../../components/{{monorepo_name}}/greeting" = "{{monorepo_name}}/greeting"
+"../../components/{{monorepo_name}}/log" = "{{monorepo_name}}/log"
 
 [tool.poe]
 executor.type = "uv"
@@ -41,7 +41,7 @@ APP_PORT.default = "8000"
 
 [tool.poe.tasks]
 # dev
-dev = "uvicorn genmono.hello_api.core:app --host localhost --port $APP_PORT --reload --reload-dir=../../"
+dev = "uvicorn {{monorepo_name}}.hello_api.core:app --host localhost --port $APP_PORT --reload --reload-dir=../../"
 
 # build
 export-deps = "uv export --no-emit-project --output-file requirements.txt"
