@@ -11,3 +11,8 @@ repos:
       entry: uv run ruff format
       language: system
       types: [python]
+    - id: mypy
+      name: mypy
+      entry: uv run mypy -p genmonox
+      language: system
+      types: [python]

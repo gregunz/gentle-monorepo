@@ -71,7 +71,7 @@ executor.type = "uv"
 
 [tool.poe.tasks]
 setup  = "pre-commit install --config .pre-commit-config.yaml"
-format = "pre-commit run --all-files"
+checks = "pre-commit run --all-files"
 
 [tool.poe.tasks.test]
 env = {PYTEST_ARGS.default = ""}
