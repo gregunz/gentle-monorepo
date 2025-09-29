@@ -1,8 +1,9 @@
-from {{monorepo_name}} import greeting, log
 from fastapi import FastAPI
+from {{monorepo_name}} import greeting, log
 
 logger = log.get_logger("greet-FastAPI-logger")
 app = FastAPI()
+
 
 @app.get("/hello")
 def hello_world() -> dict:
