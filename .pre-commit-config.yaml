@@ -20,8 +20,4 @@ repos:
       name: pytest
       entry: uv run poe test
       language: system
-    - id: pytest
-      name: pytest
-      entry: uv run poe test
-      language: system
       pass_filenames: false
